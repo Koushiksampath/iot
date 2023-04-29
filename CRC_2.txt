@@ -1,0 +1,36 @@
+clc;
+data=input('enter the input sequence'); 
+divisor=input('generate polynomial');
+[m,n]=size(divisor); 
+geinput=[data,zeros(1,n-1)]; 
+[q,r]=deconv(geinput,divisor); 
+r=abs(r);
+for i=1:length(r)
+    a=r(i);
+    if (mod(a,2)==0)
+        r(i)=0;
+    else r(i)=1;
+    end
+end 
+crc1=r(length(data)+1:end);
+disp(crc1);
+codeword1=[data crc1];
+disp(codeword1);
+codeword2=input('enter the received sequence');
+[q2,r2]=deconv(codeword2,divisor);
+r=abs(r2);
+for i=1:length(r2)
+    a=r2(i);
+    if (mod(a,2)==0)
+        r2(i)=0;
+    else r2(i)=1;
+    end
+end
+crc2=r2(length(data)+1:end); disp(crc2);
+codeword1=[data crc2];
+disp(codeword2);
+if(r2==0)
+    disp('error free transmission');
+else
+    disp('error transmission');
+end
